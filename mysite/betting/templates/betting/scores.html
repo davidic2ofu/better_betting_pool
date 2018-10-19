@@ -1,0 +1,92 @@
+{% extends 'betting/base.html' %}
+{% block title %}Update Player Points{% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<style>
+table { border-collapse: collapse; }
+td, th {
+    border: 1px solid #cccccc;
+    text-align: center;
+    padding: 6px;
+}
+tr:nth-child(even) { background-color: #eeeeee }
+</style>
+
+<h3>Update Player Scores</h3>
+
+<form method="post" action="">
+{% csrf_token %}
+
+	<select name="user_choice">
+		{% for user in user_list %}
+		<option value="{{ user }}">{{ user }}</option>
+		{% endfor %}
+
+	</select>
+	<select name="week_choice">
+		<option value="8">Week 8</option>
+		<option value="9">Week 9</option>
+		<option value="10">Week 10</option>
+		<option value="11">Week 11</option>
+		<option value="12">Week 12</option>
+		<option value="13">Week 13</option>
+
+	</select>
+	<input type="submit">
+</form>
+
+{% if week %}
+	<h4>Week {{ week }} starting {{ week_starting }} for {{ current_user }}</h4>
+
+	<table style="float: left">
+		<tr>
+			<th>Home</th>
+			<th>Home Score</th>
+			<th>Away</th>
+			<th>Away Score</th>
+			<th>Line</th>
+			<th>Game of Week?</th>
+		</tr>
+		{% for g in game_list %}
+		<tr>
+			<td style="text-align: left">{{ g.home_team }}</td>
+			<td>{{ g.home_score }}</td>
+			<td style="text-align: left">{{ g.away_team }}</td>
+			<td>{{ g.away_score }}</td>
+			<td>{{ g.line }}</td>
+			<td>{% if g.game_of_week %}<b>!</b>{% endif %}</td>
+		</tr>			
+		{% endfor %}
+	</table>
+	<table>
+		<tr>
+			<th>Pick</th>
+			<th>High Risk?</th>
+		</tr>
+		{% if pick_list %}
+		{% for p in pick_list %}
+		<tr>
+			<td>{{ p.team }}</td>
+			<td style="text-align: center">{% if p.is_high_risk %}<b>!</b>{% endif %}</td>
+		</tr>
+		{% endfor %}
+		{% else %}
+		{% for g in game_list %}
+		<tr><td>N/A</td><td>N/A</td></tr>
+		{% endfor %}
+		{% endif %}
+	</table>
+	<br>
+	Game of the week tie breaker score for {{ current_user }}: <b>{{ gow_score.score }}</b>
+	</br>
+<br><form method="post" action="">
+{% csrf_token %}
+	Point total: <input type="number" name="points">
+	<input type="submit" value="Update Points">
+</form>	
+{% endif %}
+
+{% endif %}
+
+{% endblock %}

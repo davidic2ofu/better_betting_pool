@@ -1,0 +1,26 @@
+{% load static %}
+
+<html>
+	<head>
+		<h1 style="font-family: arial black; background-color: #eeeeee; padding: 8px; box-shadow: 1px 2px 4px rgba(0, 0, 0, .5)">	<img src="{% static "betting/logo.jpg" %}" alt="logo" style="vertical-align: middle; box-shadow: 1px 2px 4px rgba(0, 0, 0, .5)">
+The Better Betting Pool</h1>
+		<p style="font-family: arial, sans-serif; line-height: 1.5">
+		{% if user.is_authenticated %} Welcome, {{ user.first_name }} ({{ user.username }}) <a href="{% url 'betting:logout' %}">logout</a> {% if user.is_superuser %}<br><b>ADMIN:</b> <a href="{% url 'betting:index' %}">Betting sheet</a> / <a href="/admin">Django admin</a> / <a href="{% url 'betting:api' %}">API betting sheet</a> / <a href="{% url 'betting:scores' %}">Update player scores</a>{% endif %}
+		{% else %} <a href="{% url 'betting:login' %}">login</a> / <a href="{% url 'betting:signup' %}">signup</a>{% endif %}
+		</p>
+		<hr>
+		<title>
+			{% block title %}Page Title{% endblock %}
+		</title>
+	
+	</head>
+	
+	<body>
+		
+		{% block content %}
+			Body content
+		{% endblock %}
+		
+	</body>
+	<br><hr>
+</html>

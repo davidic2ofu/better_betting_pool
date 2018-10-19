@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+   <object model="betting.gameofweekscore" pk="3">
+      <field name="player" rel="ManyToOneRel" to="betting.player">1</field>
+      <field name="week" type="IntegerField">2</field>
+      <field name="score" type="IntegerField">20</field>
+   </object>
+   <object model="betting.gameofweekscore" pk="4">
+      <field name="player" rel="ManyToOneRel" to="betting.player">1</field>
+      <field name="week" type="IntegerField">3</field>
+      <field name="score" type="IntegerField">25</field>
+   </object>
+   <object model="betting.gameofweekscore" pk="13">
+      <field name="player" rel="ManyToOneRel" to="betting.player">1</field>
+      <field name="week" type="IntegerField">9</field>
+      <field name="score" type="IntegerField">25</field>
+   </object>
+   <object model="betting.gameofweekscore" pk="14">
+      <field name="player" rel="ManyToOneRel" to="betting.player">18</field>
+      <field name="week" type="IntegerField">9</field>
+      <field name="score" type="IntegerField">30</field>
+   </object>
+   <object model="betting.gameofweekscore" pk="15">
+      <field name="player" rel="ManyToOneRel" to="betting.player">35</field>
+      <field name="week" type="IntegerField">9</field>
+      <field name="score" type="IntegerField">72</field>
+   </object>
+   <object model="betting.gameofweekscore" pk="16">
+      <field name="player" rel="ManyToOneRel" to="betting.player">1</field>
+      <field name="week" type="IntegerField">8</field>
+      <field name="score" type="IntegerField">22</field>
+   </object>
+   <object model="betting.gameofweekscore" pk="17">
+      <field name="player" rel="ManyToOneRel" to="betting.player">35</field>
+      <field name="week" type="IntegerField">8</field>
+      <field name="score" type="IntegerField">162</field>
+   </object>
+</django-objects>

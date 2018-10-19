@@ -1,0 +1,65 @@
+[
+{
+   "model": "betting.gameofweekscore",
+   "pk": 3,
+   "fields": {
+      "player": 1,
+      "week": 2,
+      "score": 20
+   }
+},
+{
+   "model": "betting.gameofweekscore",
+   "pk": 4,
+   "fields": {
+      "player": 1,
+      "week": 3,
+      "score": 25
+   }
+},
+{
+   "model": "betting.gameofweekscore",
+   "pk": 13,
+   "fields": {
+      "player": 1,
+      "week": 9,
+      "score": 25
+   }
+},
+{
+   "model": "betting.gameofweekscore",
+   "pk": 14,
+   "fields": {
+      "player": 18,
+      "week": 9,
+      "score": 30
+   }
+},
+{
+   "model": "betting.gameofweekscore",
+   "pk": 15,
+   "fields": {
+      "player": 35,
+      "week": 9,
+      "score": 72
+   }
+},
+{
+   "model": "betting.gameofweekscore",
+   "pk": 16,
+   "fields": {
+      "player": 1,
+      "week": 8,
+      "score": 333
+   }
+},
+{
+   "model": "betting.gameofweekscore",
+   "pk": 17,
+   "fields": {
+      "player": 35,
+      "week": 8,
+      "score": 162
+   }
+}
+]

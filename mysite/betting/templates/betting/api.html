@@ -1,0 +1,81 @@
+{% extends 'betting/base.html' %}
+{% block title %}Load Games from API{% endblock %}
+
+{% block content %}
+
+<style>
+table { border-collapse: collapse; }
+td, th { 
+	border 0.5px solid #cccccc;
+	padding: 2px;	}
+tr:nth-child(even) { background-color: #eeeeee }
+</style>
+
+<h3>List of Games</h3>
+<p>Select a week then choose up to 15 games to add to the betting sheet, manually adding network and line info for
+each selected game, as well as a selection for game of the week.  If away team is favored, the line should be negative.</p>
+
+<form method="post" action="">
+{% csrf_token %}
+
+	<select name="week_choice">
+		<option value="8">Week 8</option>
+		<option value="9">Week 9</option>
+		<option value="10">Week 10</option>
+		<option value="11">Week 11</option>
+		<option value="12">Week 12</option>
+		<option value="13">Week 13</option>
+
+	</select>
+	<input type="submit">
+</form>
+
+{% if week %}
+<h4>Week {{ week }} starting {{ week_starting }}</h4>
+
+<form method="post" action="">
+{% csrf_token %}
+
+	<table>
+		<tr>
+			<th>Choose</th>
+			<th>Home</th>
+			<th>Away</th>
+			<th>Pub Line</th>
+			<th>Line</th>
+			<th>Network</th>
+			<th>Game Time</th>
+			<th>Game of Week?</th>
+		</tr>
+		{% for g in game_list %}
+		<tr>
+			<td><center><input type="checkbox" name="game_choice" value="{{ g.id }}" id="{{ g.home }}"></center></td>
+			<td><label for="{{ g.home }}">{{ g.home }}</label></td>
+			<td>{{ g.away }}</td>
+			<td>{{ g.line }}</td>
+			<td><input type="text" name="{{ g.id }}_line" size=6></td>
+			<td><input type="text" name="{{ g.id }}_network" size=15></td>
+			<td>{{ g.date }}</td>
+			<td><center><input type="radio" name="game_of_week" value="{{ g.id }}" required></center></td>
+		</tr>			
+		{% endfor %}
+		{% for i in "123" %}
+		<tr>
+			<td><center><input type="checkbox" name="game_choice" value="manual{{ forloop.counter }}"></center></td>
+			<td><input type="text" name="home{{ forloop.counter }}" size=30></td>
+			<td><input type="text" name="away{{ forloop.counter }}" size=30></td>
+			<td>N/A</td>
+			<td><input type="text" name="line{{ forloop.counter }}" size=6></td>
+			<td><input type="text" name="network{{ forloop.counter }}" size=15></td>
+			<td><input type="datetime-local" name="date{{ forloop.counter }}"></td>
+			<td><center><input type="radio" name="game_of_week" value="gow{{ forloop.counter }}"></center></td>
+		</tr>
+		{% endfor %}
+	</table>
+	<br><input type="submit" value="Submit Games">
+	
+</form>	
+{% endif %}
+
+
+{% endblock %}

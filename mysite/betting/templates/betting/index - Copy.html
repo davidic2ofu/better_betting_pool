@@ -1,0 +1,152 @@
+{% extends 'betting/base.html' %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+table.table1 { width: 100%; }
+table.table2 { width: 100%; }
+
+td, th {
+    border: 1px solid #cccccc;
+    text-align: left;
+    padding: 8px;
+}
+
+th.th2 {font-family: times, serif; font-size: 18pt; font-style: bold}
+
+td.td2 { border: 0px; width: 25%; vertical-align: top }
+
+tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+
+
+</style>
+<h3>Week # {{ current_week.week_num }} (Starting {{ current_week.start_date }})</h3>
+
+{% if game_list %}
+
+<form method="post" action="">
+{% csrf_token %}
+
+	<table class="table1">
+		<tr>
+			<th>Home Team</th>
+			<th>Away Team</th>
+			<th>Line</th>
+			<th>Network</th>
+			<th>Game Time</th>
+			<th style="width: 85px">High Risk?</th>
+			<th>Your Pick</th>
+		</tr>
+		
+		{% for game in game_list %}
+
+			<tr>
+				<td><input type="radio" name="{{ game.id }}" id="choice{{ forloop.counter }}-1" value="{{ game.home_team }}" required>
+				{% ifequal game.home_team game.favorite %}
+					<label for="choice{{ forloop.counter }}-1"><b>{{ game.home_team }}</b></label>
+				{% else %}
+					<label for="choice{{ forloop.counter }}-1">{{ game.home_team }}</label>
+				{% endifequal %} </td>
+				<td><input type="radio" name="{{ game.id }}" id="choice{{ forloop.counter }}-2" value="{{ game.away_team }}">
+				{% ifequal game.away_team game.favorite %}
+					<label for="choice{{ forloop.counter }}-2"><b>{{ game.away_team }}</b></label>
+				{% else %}
+					<label for="choice{{ forloop.counter }}-2">{{ game.away_team }}</label>
+				{% endifequal %}</td>
+				<td>{{ game.line }}</td>
+				<td>{{ game.network }}</td>
+				<td>{{ game.game_time }}</td>
+				<td><center><input type="radio" name="high_risk" value="{{ game.id }}" /></center></td>
+				<td>
+					{% for pick in saved_picks %}
+						{% if pick.game_id == game.id %}
+							{{ pick.team }}
+							{% if pick.is_high_risk == True %}
+								<b>(HR)</b>
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+					
+					
+				</td>
+			</tr>
+
+		{% endfor %}
+
+	</table>
+
+<br>
+
+<table class="table1" style="background-color: #eeeeee">
+<td><b>Game of the Week: 
+	{{game_of_week.home_team }} vs {{ game_of_week.away_team }} (Tie Breaker) Total Points Scored: 
+	<input type="number" step="1" name="game_of_week_score" required />
+</td>
+</table>
+<br>
+* Favored team in <b>bold</b>
+<br><br>
+{% if user.player.is_paid %}<input type="submit" value="Save Your Picks" />
+{% else %} <mark>Please pay up to save selections or see admin! <br>Thank you!</mark>
+{% endif %}
+</form>
+
+{% else %}
+<h2 style="background-color: #ffff00">No games selected yet!</h2>
+{% endif %}
+
+<br><hr>
+<table class="table1" style="background-color: #eeeeee; padding: 8px; box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);"><th class="th2"><center>Other Info</th></table>
+<table class="table2">
+	<tr>
+		<td class="td2", style="width: 50%">
+			<table class="table2">
+				<caption><b>Winston Cup Standings</b></caption>
+				<tr>
+					<th style="width: 25%">Last Week's Points</th>
+					<th style="width: 50%">User Info</th>
+					<th style="width: 25%">Total Points</th>
+				</tr>
+				{% for player in player_list %}
+				<tr>
+					<td>{{ player.last_week_score }}</td>
+					<td>{{ player.user.first_name }} {{ player.user.last_name }} ({{ player.user.username }})</td>
+					<td>{{ player.score }}</td>
+				</tr>
+				{% endfor %}
+
+			</table>
+		</td>
+		<td class="td2" style="border-right: 1px solid #cccccc">
+			<center><b>Weekly Payout Rules</b>
+			<center>$10 Cash with Entry
+			<center>Entry deadline: Every Thursday at noon
+			<center>All picks and payments go to Nathan Stamper
+			<center>1st place 80% 2nd place 20%
+			<hr>
+			<center>2 Bonus points to winners of the Game of the Week
+			<hr>
+			<center><b>5 Point High Risk Game</b>
+			<center>1 game per week, of your choice, can be selected as your high-risk game.  If you win the game, you will receive 5 additional Winston Cup points.  However, if you lose this game, 5 points will be deducted from your Winston Cup point total.  Note: Weekly participation in the High Risk Game is not mandatory.
+		</td>
+		<td class="td2" style="vertical-align: middle">
+			<h3><center>Winston Cup Payout Formula</center></h3>
+			<center>1st Place 70%</center>
+			<center>2nd Place 20%</center>
+			<center>Last Place 10%</center>
+			<center>$25 Entry Fee</center>
+			<center>Must declare prior entry of Week 2 Picks</center>
+			<center>Cumulative Points</center>
+		</td>
+	</tr>
+</table>
+{% endblock %}

@@ -1,0 +1,39 @@
+from django.db import models
+from django.utils import timezone
+
+class Team(models.Model):
+	#game = models.ForeignKey(Game, on_delete=models.CASCADE)
+	team_text = models.CharField(max_length=200, default='')
+	game_points = models.IntegerField(default=0)
+	def __str__(self):
+		return self.team_text
+		
+class Game(models.Model):
+	game_text = models.CharField(max_length=200)
+	#game_text.short_description = 'Game Index'
+	#team_1 = models.CharField(max_length=200, default='')
+	team_1 = models.ForeignKey(Team, on_delete=models.CASCADE)
+	#team_2 = models.CharField(max_length=200, default='')
+	team_2 = models.ForeignKey(Team, on_delete=models.CASCADE)
+	favorite = models.CharField(max_length=200)
+	line = models.FloatField(default=0)
+	network = models.CharField(max_length=200)
+	game_time = models.DateTimeField('game time/date')
+	game_of_week = models.BooleanField(default=False)
+	pub_date = models.DateTimeField('published', default=timezone.now())
+	def __str__(self):
+		return self.game_text
+
+# class Team1(models.Model):
+	# game = models.ForeignKey(Game, on_delete=models.CASCADE)
+	# team_text = game.team_1()
+	# game_points = models.IntegerField(default=0)
+	# def __str__(self):
+		# return self.team_text
+
+# class Team2(models.Model):
+	# game = models.ForeignKey(Game, on_delete=models.CASCADE)
+	# team_text = game.team_2()
+	# game_points = models.IntegerField(default=0)
+	# def __str__(self):
+		# return self.team_text
